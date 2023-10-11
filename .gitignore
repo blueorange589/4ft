@@ -130,6 +130,10 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+# cdn_modules
+cdn_modules
+!*/cdn_modules/vue-router@4.2.5
+!*/cdn_modules/vue@3.3.4
 
 # gitignore
 .gitignore
@@ -138,4 +142,5 @@ dist
 dev
 
 # addons
-addons/uiKitBuilder/
+addons/
+!*/addons/addons.js

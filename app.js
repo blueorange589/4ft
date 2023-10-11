@@ -7,14 +7,14 @@ const { createApp } = Vue;
 
 
 import { addOns } from './addons/addons.js';
-import { store, getSubdir, makeRoute } from './modules/app/store.js';
-import { modal, confirmer, info, divide, card, btn, badge, msg, avatar, filters, sorters, dropdown, paginate } from './modules/app/components/elements.js';
-import { home, page, navbar, logo, pagetitle, pagetop,  menulist, mobibar, notFound, unauthorized} from './modules/app/components/layout.js';
-import { listItem, listImage } from './modules/app/components/listview.js';
-import { tablewrap } from './modules/app/components/table.js';
-import { errlist } from './modules/app/helpers/validate.js';
-import { ftext, fshow, farea, fselect, fradio, fcheck, fmoney } from './modules/app/components/forms.js';
-import { icon } from './modules/app/helpers/icons.js';
+import { store, getSubdir, makeRoute } from './core/app/store.js';
+import { modal, confirmer, info, divide, card, btn, badge, msg, avatar, filters, sorters, dropdown, paginate } from './core/app/components/elements.js';
+import { home, page, navbar, logo, pagetitle, pagetop,  menulist, mobibar, notFound, unauthorized} from './core/app/components/layout.js';
+import { listItem, listImage } from './core/app/components/listview.js';
+import { tablewrap } from './core/app/components/table.js';
+import { errlist } from './core/app/helpers/validate.js';
+import { ftext, fshow, farea, fselect, fradio, fcheck, fmoney } from './core/app/components/forms.js';
+import { icon } from './core/app/helpers/icons.js';
 
 
 const app = createApp({
