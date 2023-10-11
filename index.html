@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body class="text-sm lg:text-md w-full">
+
+  <div id="app" class="w-full h-full">
+    <div id="notifications"></div>
+    <navbar></navbar>
+
+    <div class="w-full h-full max-w-desktop">
+        <!-- route outlet -->
+        <!-- component matched by the route will render here -->
+        <router-view></router-view>
+    </div>
+
+  </div>
+
+  <script>
+    const loadCss = (path) => {
+      const css = document.createElement('link');
+      css.href = path;
+      css.rel = 'stylesheet';
+      document.head.appendChild(css)
+    }
+
+    const loadJs = (path, type) => {
+      const js = document.createElement('script');
+      js.src = path
+      js.type = type === 'module' ? 'module' : 'text/javascript'
+      document.body.append(js)
+      return new Promise(resolve => setTimeout(resolve, 50, true))
+    }
+
+    const getSubdir = (subs) => {
+      const parts = subs.split('/')
+      if(!parts.length) { return '/' }
+      const subdirs = ['admin', 'user', 'dev', 'auth', 'site', 'page']
+      const nonrouted = []
+      let stop = false
+      parts.forEach(part => {
+        if(subdirs.includes(part) || stop) { 
+          stop = true 
+          return 
+        }
+        nonrouted.push(part)
+      })
+      return nonrouted.join('/')
+    }
+
+    window.addEventListener('DOMContentLoaded', (e) => {
+      const {origin, pathname} =  window.location
+      const subdir = getSubdir(pathname)
+
+      const mp = (fn) => { return origin + subdir + `/assets/css/${fn}.css` }
+      loadCss(mp('reset'))
+      loadCss(mp('utils'))
+      loadCss(mp('4ft'))
+
+      const jp = (fn) => { return origin + subdir + fn }
+      loadJs(jp('/cdn_modules/vue@3.3.4/vue.global.prod.min.js'), 'script').then(res => {
+        loadJs(jp('/cdn_modules/vue-router@4.2.5/vue-router.global.js'), 'script').then(res => {
+          loadJs(jp('/app.js'), 'module')
+        })
+      })
+    })
+  </script>
+</body>
+
+</html>

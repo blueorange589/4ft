@@ -1,0 +1,346 @@
+/* variables */
+:root {
+  --primary: #bbb;
+  --secondary: #0A90AD;
+  --third: coral;
+  --outline: #ddd;
+  --headers: #222;
+  --text: #444;
+  --link: #4200DA;
+  --bodybg: #222;
+}
+
+
+/* inter-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/inter-v13-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-500 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/inter-v13-latin-500.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-600 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../fonts/inter-v13-latin-600.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/inter-v13-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-800 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 800;
+  src: url('../fonts/inter-v13-latin-800.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-900 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 900;
+  src: url('../fonts/inter-v13-latin-900.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+
+
+html, body{
+  color: var(--text);
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  background-color: var(--bodybg);
+  box-sizing: border-box;
+  font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.page {
+  width: 100%;
+  height: 100%;
+}
+
+/* tags */
+a, a:focus, a:visited {
+  color: var(--link);
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background-color: var(--secondary);
+  border: 0px;
+  border-radius: 0.375rem;
+  font-weight: 500;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.25rem;
+}
+h1, h2, h3, h4, h5, h6{color: var(--headers);}
+
+
+
+.h-full{height: 100%;}
+.lg {padding: 6px 16px;}
+.btn-nav{
+  flex-direction: column;
+  font-weight: 400;
+  padding: .125rem .5rem;
+  background: none;
+  font-size: 0.55rem;
+}
+.nav-active{
+  border-bottom: 1px solid var(--secondary);
+}
+
+
+
+/* sidebar */
+.sidemenu {
+  background-color: white;
+  color: black;
+  position: fixed;
+  z-index: 9;
+  width: 200px;
+  height: 100%;
+}
+.sidebody{
+  padding: 1rem;
+}
+.menulist{margin-top:1rem;}
+.menulist > li {margin:.4rem 0px;}
+
+
+.modal-head{
+  border-bottom: 1px solid var(--outline);
+  font-size: 1rem;
+  font-weight: bold;
+}
+.modal-foot{border-top: 1px solid var(--outline);}
+
+
+/* logo */
+.logo-dark {display: none;}
+
+/* headers */
+h1, h2, h3 {
+  font-weight: bold;
+  margin: 0.125rem 0px;
+}
+h1 {font-size: 1.625rem; line-height: 2rem;}
+h2 {font-size: 1.5rem; line-height: 2rem;}
+h3 {font-size: 1.125rem; line-height: 1.5rem;}
+
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 0.125rem;
+  font-size: .875rem;
+}
+
+.field {margin: .5rem 0px;}
+.field.m-0{margin: 0px;}
+.field label {
+  color:var(--gray-700);
+  display:block;
+  font-weight: 700;
+  margin-bottom:.25rem;
+}
+
+/* pager */
+.paginate > li {padding: .25rem}
+.pager{
+    font-size:.75rem;
+    padding: .125rem;
+    margin:0px;
+    width: 2rem;
+}
+
+/* sizes */
+.icon-sm{width:.75rem;height: .75rem;}
+.icon-md{
+  width: 1rem;
+  height: 1rem;
+}
+
+.icon-lg{
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.icon-xl {
+  width: 2rem;
+  height: 2rem;
+}
+
+.btn-sm {
+  font-size: .7rem;
+  padding: .05rem .5rem;
+}
+.btn-md {
+  font-size: .85rem;
+  padding: .25rem .75rem;
+}
+.btn-lg {
+  font-size: 1rem;
+  padding: .35rem 1rem;
+}
+.btn-none{
+  background: none;
+  color: var(--text);
+}
+
+/* flex helpers */
+.row{
+  display: flex;
+  flex-direction: row;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+}
+.start-center{
+  justify-content: start;
+  align-items: center;
+}
+.between-center{
+  justify-content: space-between;
+  align-items: center;
+}
+.between-end {
+  justify-content: space-between;
+  align-items: end;
+}
+.between-start {
+  justify-content: space-between;
+  align-items: start;
+}
+.end-center {
+  justify-content: end;
+  align-items: center;
+}
+.end-end {
+  justify-content: end;
+  align-items: end;
+}
+.center-center {
+  justify-content: center;
+  align-items: center;
+}
+
+/* data display */
+.display-data .row {
+  margin: .75rem 0px;
+  justify-content: start;
+  align-items: center;
+}
+
+.display-data .row > div:first-child {
+  width: 8rem;
+  font-weight: 700;
+}
+
+.uipreview *:not(div.uisectiontitle, div.uielement) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 100%;
+  line-height: 1;
+  font-family: inherit;
+  text-align: left;
+}
+.uipreview *:not(span){
+  display: block;
+}
+
+div.uielement {
+  padding: .25rem 0px;
+}
+
+/* notifications */
+.notify {
+  width: 320px;
+  height: auto;
+  border-radius: .125rem;
+  
+  font-size: .9rem;
+  font-weight: 500;
+  padding:.5rem;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  margin-left: -160px;
+  z-index:20;
+}
+
+.v-notify {
+  background: #cfd8e3;
+  border-radius: 4px;
+  padding: 0.75rem 1rem 1.5rem 1rem;
+  width: 350px;
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  margin-left: -175px;
+  z-index:20;
+}
+.error {
+  background-color: rgb(255, 194, 194);
+  color: rgb(172, 0, 0);
+}
+.success {
+  background-color: rgb(199, 255, 194);
+  color: rgb(11, 65, 0);
+}
+
+progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+/* dark mode */
+body.dark *{
+  background-color: black; 
+  color: white;
+}
+.dark .bg-white, .dark .card{
+  background-color: #222;
+  color:white;
+}
+.dark input, .dark select, .dark textarea {
+  background-color: #ccc;
+}
+
+.dark .logo-dark{display:block;}
+.dark .logo-default{display:hidden;}
