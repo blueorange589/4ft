@@ -6,7 +6,7 @@
 const { createApp, reactive } = Vue;
 
 import { addOns } from "./addons/addons.js";
-import { selectRow } from "./dev/scripts/local.js";
+import { selectRow } from "./core/app/helpers/local.js";
 import { store, xhr, templates, getSubdir, makeRoute } from "./core/app/store.js";
 import {
   modal,
@@ -129,12 +129,9 @@ const addOnMounts = async() => {
           const routeProps = {...subs[sk], ...{component: cmp}}
           const newrt = makeRoute(routeProps);
           routes.push(newrt)
-          console.log(subs[sk])
           app.component(`${subs[sk].name}`, cmp);
         });
         app.component(`${name}`, mod.container);
-        // const body = mod.container.setup()
-        // bodies[name] = body
       }
       if (initers.init) initers.init();
       
@@ -149,26 +146,23 @@ const addOnMounts = async() => {
 
 const appMount = async() => {
   const res = await addOnMounts().then(async(mods) => {
-    console.log(mods)
     const router = VueRouter.createRouter({
       history: VueRouter.createWebHistory(),
       routes,
     });
 
     const templates = {}
-    const ts = await xhr.database("/query", { run: "select", from: "elements" }).then((res) => {
+    const ts = await xhr.database({ run: "select", from: "4ft_templates" }).then((res) => {
       res.data.forEach((tmp) => {
         const tn = tmp.name;
         templates[tn] = tmp.template;
       });
     });
 
-    console.log(routes)
     
     router.beforeEach(async (to, from) => {
       const { me } = store,
         { meta } = to;
-        console.log(to)
       if (meta.reqAuth) {
         if (meta.type) {
           if (me) {
@@ -183,7 +177,6 @@ const appMount = async() => {
       }
 
     
-      // const provides = body[name];
       if (to.name === "auth-login") {
         const cmp = app.component('auth')
         const provides = cmp.setup()
@@ -192,7 +185,6 @@ const appMount = async() => {
         }
     
         // 2 - set route template
-        console.log(templates)
         const routeTemplate = templates[to.name]
         to.matched[0].components.default.template = routeTemplate
       }

@@ -6,7 +6,7 @@
 const { useRouter } = VueRouter;
 
 import { store } from '../store.js';
-import { insertRow } from '../../../dev/scripts/local.js';
+import { insertRow } from '../helpers/local.js';
 
 
 export const page = {

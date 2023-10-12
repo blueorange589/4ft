@@ -5,7 +5,7 @@
  */
 const { reactive } = Vue;
 
-import { query } from '../dev/scripts/local.js';
+import { query } from '../core/app/helpers/local.js';
 import {optsRoles} from './app/helpers/options.js';
 
 const str = reactive({

@@ -5,7 +5,7 @@
  */
 import { store, utils } from './app/store.js';
 import { optsGender } from './app/helpers/options.js';
-import { updateRow } from '../dev/scripts/local.js';
+import { updateRow } from '../core/app/helpers/local.js';
 
 const tbl = "users"
 const mtd = {

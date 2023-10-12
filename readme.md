@@ -36,19 +36,27 @@ Designed to work in Node, Nginx and Apache servers. (Node server support not rea
 
 
 
+
 :::info
 most of the code to be reorganized, which is underway. It’s ready for preview though.
 
 :::
 
 
+
+### Contributions
+
 Can you maintain the repo? 4ft wants you.
 
 Are you a react developer? 4ft is happy to have a react friend.
 
 
-Special special thanks
+Features to implement are listed in ‘Projects’ tab. Feel free to grab yours and send me a message before starting.
+
+### Special special thanks
 
 Evan You and Vue team
 
-Supabase team
+Supabase
+
+Tailwind CSS

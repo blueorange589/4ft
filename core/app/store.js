@@ -3,7 +3,7 @@
  * Author: Ozgur Arslan | MIT License
  * v0.1 (2023/10/07)
  */
-const { ref, reactive } = Vue;
+const { reactive } = Vue;
 
 import { config } from '../../config.js'
 import { NotifyService } from './components/elements.js'
@@ -110,11 +110,8 @@ export const xhr = {
       o.body = ((o.headers['Content-Type'] === 'application/json') ? JSON.stringify(o.body) : o.body)
     }
 
-    console.log(o)
-    
     const response = await fetch(url, o)
       .then((response) => {
-        console.log(response)
         if (response.ok) {
           return response.json()
         } else if(response.status === 404) {
@@ -134,9 +131,11 @@ export const xhr = {
     const { data, error } = await xhr.request(url, opts)
     return new Promise(resolve => resolve({ data, error }))
   },
-  database: async(ep, body) => {
+  database: async(body) => {
     if(config.database === 'supabase') {
-      return xhr.supabase(ep, body)
+      const res = await xhr.supabase('/query', body)
+      console.log(res)
+      return res
     }
   }
 }

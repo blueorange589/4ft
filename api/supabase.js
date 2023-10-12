@@ -9,21 +9,21 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY
 
 
 const query = async(q) => {
-  console.log(q)
+  // console.log(q)
   
   let cl = {}
 
   if (q.run === "select") {
-    const sel = q.select || '*'
+    const sel = q.select ? q.select.join(',') : '*'
     cl = supabase.from(q.from).select(sel)
   }
 
   if (q.run === "insert") {
-    cl = supabase.from(q.from).insert(q.insert)
+    cl = supabase.from(q.from).insert(q.data)
   }
 
   if (q.run === "update") {
-    cl = supabase.from(q.from).update(q.values)
+    cl = supabase.from(q.from).update(q.data)
   }
 
   if (q.run === "delete") {
@@ -31,7 +31,7 @@ const query = async(q) => {
   }
 
   // matchers
-  if (q.eq2) { 
+  if (q.eq) { 
     Object.keys(q.eq).forEach(col => {
       console.log(col, q.eq[col])
       cl.eq(col, q.eq[col])
@@ -54,7 +54,7 @@ const query = async(q) => {
   }
 
   const { data, error } = await cl
-
+  // console.log(data, error)
   return { data, error }
 };
 

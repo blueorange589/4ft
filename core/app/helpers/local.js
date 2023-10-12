@@ -63,6 +63,7 @@ export async function insertRow(table, row) {
     save(table, dt)
     return new Promise(resolve => setTimeout(resolve, delay, dt));
   }
+  alert('create table:'+table)
   const dtb = []
   dtb.push(row)
   save(table, dtb)
@@ -90,17 +91,6 @@ export async function updateRow(table, key, row) {
   dt[key] = row
   save(table, dt)
   return new Promise(resolve => setTimeout(resolve, delay, dt));
-}
-
-
-export async function deleteAt (table, idx) {
-  const dt = await retrieve(table)
-  if (!dt) {
-    return new Promise(resolve => setTimeout(resolve, delay, false));
-  }
-  dt.splice(idx,1)
-  save(table, dt)
-  return new Promise(resolve => setTimeout(resolve, delay, true));
 }
 
 
