@@ -27,7 +27,13 @@ export const store = reactive({
     full: () => { return [store.url.base, store.url.sub].join('') },
     file: (fn) => { return [store.url.full(),fn].join('/') },
     link: (fn) => { return [store.url.sub,fn].join('') },
-    backend: (ep) => { return config.mode === 'development' ? 'http://0.0.0.0:3000/api'+ep: store.url.file('api'+ep)}
+    backend: (ep) => { 
+      let url = config.dev.backend.local+ep
+      if(config.dev.mode === 'production') {
+        url = config.dev.backend.production+ep
+      }
+    return url
+    }
   },
   router: {},
   signIn: () => { 
@@ -132,7 +138,7 @@ export const xhr = {
     return new Promise(resolve => resolve({ data, error }))
   },
   database: async(body) => {
-    if(config.database === 'supabase') {
+    if(config.dev.database === 'supabase') {
       const res = await xhr.supabase('/query', body)
       console.log(res)
       return res

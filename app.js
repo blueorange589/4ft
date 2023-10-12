@@ -6,8 +6,8 @@
 const { createApp, reactive } = Vue;
 
 import { addOns } from "./addons/addons.js";
-import { selectRow } from "./core/app/helpers/local.js";
-import { store, xhr, templates, getSubdir, makeRoute } from "./core/app/store.js";
+import { config } from "./config.js";
+import { store, xhr, getSubdir, makeRoute } from "./core/app/store.js";
 import {
   modal,
   confirmer,
@@ -55,6 +55,14 @@ const app = createApp({
     const subdir = getSubdir(pathname);
     store.url.base = origin;
     store.url.sub = subdir.slice(-1) === "/" ? subdir.slice(0, -1) : subdir;
+
+    const localHosts = ['127.0.0.1', '0.0.0.0', 'localhost']
+    localHosts.forEach(h => { 
+      if(origin.search(h)) { 
+        config.dev.mode = 'development'
+      } else {
+        config.dev.mode = 'production'
+      } })
     return { store };
   },
 });
@@ -153,11 +161,14 @@ const appMount = async() => {
 
     const templates = {}
     const ts = await xhr.database({ run: "select", from: "4ft_templates" }).then((res) => {
-      res.data.forEach((tmp) => {
-        const tn = tmp.name;
-        templates[tn] = tmp.template;
-      });
-    });
+      if(res) {
+        res.data.forEach((tmp) => {
+          const tn = tmp.name;
+          templates[tn] = tmp.template;
+        })
+      }
+      
+    })
 
     
     router.beforeEach(async (to, from) => {

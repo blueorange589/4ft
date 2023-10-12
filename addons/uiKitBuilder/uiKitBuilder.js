@@ -264,7 +264,7 @@ const ctStyle = {
 				})
 			}
 			if(evn === 'exportkit') {
-				if(config.mode === 'demo') {
+				if(config.mode === 'production') {
 					ctMain.event('error', {message: 'Demo site: CSS exports are not allowed'})
 					return false
 				}

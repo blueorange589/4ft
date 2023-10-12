@@ -83,6 +83,12 @@ server.post('/api/sb/resetpwd', async (req, res) => {
   res.send(result)
 })
 
+
+
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`)
 })
+
+
+// Export the Express API
+module.exports = server;
