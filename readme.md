@@ -11,6 +11,8 @@ As for server side, only /api folder requires node server running, which is a ga
 
 In addition, it also provides development tools within the app gets developed;
 
+* UIKitBuilder
+* LayoutBuilder
 * console
 * tests
 * styles
@@ -37,6 +39,7 @@ Designed to work in Node, Nginx and Apache servers. (Node server support not rea
 
 
 
+
 :::info
 most of the code to be reorganized, which is underway. It’s ready for preview though.
 
@@ -55,7 +58,7 @@ Features to implement are listed in ‘Projects’ tab. Feel free to grab yours 
 
 ### Special special thanks
 
-Evan You and Vue team
+Evan You and Vue team @yyx990803 @vuejs
 
 Supabase
 

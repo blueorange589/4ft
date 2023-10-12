@@ -8,8 +8,6 @@ const { useRoute, useRouter } = VueRouter;
 
 
 const auth = {}
-
-
 auth.data = reactive({
   login: {
     email: 'test1',
@@ -18,15 +16,11 @@ auth.data = reactive({
   }
 })
 
-
-
 auth.events = {
   signIn: () => {
     console.log(auth.data.login)
   }
 }
-
-
 
 export const container = {
   name: 'auth',
