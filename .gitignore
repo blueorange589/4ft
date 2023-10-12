@@ -147,3 +147,4 @@ dev
 # !/addons/admin
 # !/addons/auth
 /addons/jobiva
+.vercel

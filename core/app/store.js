@@ -27,7 +27,7 @@ export const store = reactive({
     full: () => { return [store.url.base, store.url.sub].join('') },
     file: (fn) => { return [store.url.full(),fn].join('/') },
     link: (fn) => { return [store.url.sub,fn].join('') },
-    backend: (ep) => { return config.mode === 'development' ? 'http://0.0.0.0:3000/api'+ep: store.url.file('api/'+ep)}
+    backend: (ep) => { return config.mode === 'development' ? 'http://0.0.0.0:3000/api'+ep: store.url.file('api'+ep)}
   },
   router: {},
   signIn: () => { 
