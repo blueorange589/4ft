@@ -3,97 +3,135 @@
  * Author: Ozgur Arslan | MIT License
  * v0.1 (2023/10/07)
  */
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-const supabase = createClient('https://xyzcompany.supabase.co', 'public-anon-key')
+require('dotenv').config()
+const { createClient } = require('@supabase/supabase-js');
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
 
-export async function query(q) {
-  let query = supabase
-  query.from(q.from)
+
+const query = async(q) => {
+  console.log(q)
+  
+  let cl = {}
 
   if (q.run === "select") {
     const sel = q.select || '*'
-    query.select(sel)
+    cl = supabase.from(q.from).select(sel)
   }
 
   if (q.run === "insert") {
-    query.insert(q.insert)
+    cl = supabase.from(q.from).insert(q.insert)
   }
 
   if (q.run === "update") {
-    query.update(q.values)
+    cl = supabase.from(q.from).update(q.values)
   }
 
   if (q.run === "delete") {
-    query.delete()
+    cl = supabase.from(q.from).delete()
   }
 
   // matchers
-  if (q.eq) { query.eq(q.eq) }
-  if (q.gt) { query.gt(q.gt) }
-  if (q.lt) { query.lt(q.lt) }
+  if (q.eq2) { 
+    Object.keys(q.eq).forEach(col => {
+      console.log(col, q.eq[col])
+      cl.eq(col, q.eq[col])
+    })
+  }
+  if (q.gt) { cl.gt(q.gt) }
+  if (q.lt) { cl.lt(q.lt) }
 
   // sorting
   if (q.order) {
     const cols = Object.keys(q.order)
     cols.forEach(col => {
       const ascending = q.order[col] === 'asc' ? true : false
-      query.order(col, { ascending })
+      cl.order(col, { ascending })
     })
   }
 
   if (q.single) {
-    query.single()
+    cl.single()
   }
 
-  const { data, error } = await query
+  const { data, error } = await cl
 
   return { data, error }
-}
+};
 
-export const auth = {
+const auth = {
   saveSession: (session) => {
+    console.log(session)
     // setCookie()
   },
-  getSession: () => {
-    const session = supabase.auth.session()
-    return { session }
+  getSession: async() => {
+    const { data, error } = await supabase.auth.getSession()
+    //const session = supabase.auth.session()
+    return { data, error }
   },
-  signIn: (params) => {
-    // {email: email, password: password}
+  refreshSession: async() => {
+    // using refresh token
+    const { data, error } = await supabase.auth.refreshSession({ refresh_token })
+
+    // create new session
+    // const { data, error } = await supabase.auth.refreshSession()
+    return { data, error }
+  },
+  signIn: async(params) => {
+    const { data, error } = await supabase.auth.signInWithPassword(params)
+    if(!error) {
+      auth.saveSession(data.session)
+    }
+    return { data, error }
+  },
+  signInSocial: async(params) => {
     // {provider: 'github'}
-    const { user, session, error } = await supabase.auth.signIn(params)
-    auth.saveSession(session)
-    return { user, session, error }
+    const { data, error } = await supabase.auth.signInWithOAuth(params)
+    if(!error) {
+      auth.saveSession(data.session)
+    }
+    return { data, error }
   },
-  signOut = () => {
+  signOut: async () => {
     const { error } = await supabase.auth.signOut()
     return { error }
   },
-  signUp = (params) => {
+  signUp: async (params) => {
     // login: email, password
     // data: columns
-    const { user, session, error } = await supabase.auth.signUp(params.login, params.data)
-  },
-  resetPassword = (params) => {
-    const { data, error } = await supabase.auth.api.resetPasswordForEmail(params.email)
+    const { data, error } = await supabase.auth.signUp(params.login, params.data)
     return { data, error }
   },
-  setAuth: () => {
-    const session = auth.getSession()
-    const { user, error } = await supabase.auth.setAuth(session.access_token)
-    return { user, error }
+  resetPassword: async (params) => {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(params.email, {
+      redirectTo: 'https://example.com/update-password',
+    })
+    return { data, error }
   },
-  getUserFromSession: () => {
-    const session = auth.getSession()
-    const { user, error } = await supabase.auth.api.getUser(access_token) 
-    return { user, error }
+  setSession: async() => {
+    // const session = auth.getSession()
+    // const { user, error } = await supabase.auth.setAuth(session.access_token)
+    // return { user, error }
+
+    const { data, error } = supabase.auth.setSession({access_token, refresh_token})
+    return { data, error }
   },
-  getUser: () => {
+  getUserFromSession: async() => {
+    const session = auth.getSession()
+    const { data, error } = await supabase.auth.getUser() 
+
+    // using jwt
+    // const { user, error } = await supabase.auth.getUser(jwt) 
+
+    return { data, error }
+  },
+  getUser: async() => {
     const user = await supabase.auth.user()
     return { user }
   }
 }
 
-export const useSupabaseStorage = () => {
+const storage = () => {
   return supabase.storage
 }
+
+module.exports = {query, auth, storage};

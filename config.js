@@ -1,5 +1,7 @@
 export const config = {
   siteName: '4ft',
   locale: 'en-US',
-  mode: 'demo'
+  mode: 'development',
+  use: 'node',
+  database: 'supabase'
 }

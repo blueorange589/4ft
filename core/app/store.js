@@ -8,6 +8,8 @@ const { ref, reactive } = Vue;
 import { config } from '../../config.js'
 import { NotifyService } from './components/elements.js'
 
+export const templates = {}
+
 // store.js
 export const store = reactive({
   me: false,
@@ -24,7 +26,8 @@ export const store = reactive({
     sub: '',
     full: () => { return [store.url.base, store.url.sub].join('') },
     file: (fn) => { return [store.url.full(),fn].join('/') },
-    link: (fn) => { return [store.url.sub,fn].join('') }
+    link: (fn) => { return [store.url.sub,fn].join('') },
+    backend: (ep) => { return config.mode === 'development' ? 'http://0.0.0.0:3000/api'+ep: store.url.file('api/'+ep)}
   },
   router: {},
   signIn: () => { 
@@ -98,19 +101,20 @@ export const xhr = {
     },
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    //body: JSON.stringify(data)  body data type must match "Content-Type" header
+    body: {}
   },
-  request: async (url, params, opts) => {
+  request: async (url, opts) => {
     // spinner start
-    let o = {...this.options, ...opts}
+    let o = {...xhr.options, ...opts}
     if (o.method !== 'GET') {
-      o.body = ((o.headers['Content-Type'] === 'application/json') ? JSON.stringify(params) : params)
+      o.body = ((o.headers['Content-Type'] === 'application/json') ? JSON.stringify(o.body) : o.body)
     }
+
+    console.log(o)
     
-    const data = ref(null)
-    const error = ref(null)
-    const response = await fetch(url, opts)
-      .then((res) => {
+    const response = await fetch(url, o)
+      .then((response) => {
+        console.log(response)
         if (response.ok) {
           return response.json()
         } else if(response.status === 404) {
@@ -119,19 +123,21 @@ export const xhr = {
           return Promise.reject('some other error: ' + response.status)
         }
       })
-      .then((json) => (data.value = json))
-      .catch((err) => (error.value = err))
-      
+      .catch((err) => {console.log(err)})    
     // spinner end
-      
-    return { data, error }
+
+    return new Promise(resolve => resolve(response))
   },
-  supabase: (ep, params) => {
-    const url = store.url.file('/api')+ep
-    const response = xhr.request(url, params)
-    .then(({data, error}) => {
-      // check errors
-    })
+  supabase: async(ep, body) => {
+    const url = store.url.backend('/sb'+ep)
+    const opts = {body, method: 'POST'}
+    const { data, error } = await xhr.request(url, opts)
+    return new Promise(resolve => resolve({ data, error }))
+  },
+  database: async(ep, body) => {
+    if(config.database === 'supabase') {
+      return xhr.supabase(ep, body)
+    }
   }
 }
 
@@ -154,16 +160,11 @@ export const getSubdir = (subs) => {
 }
 
 let id = 1
-export const makeRoute = (path, name, component, meta) => {
+export const makeRoute = (routeProps) => {
   const {pathname} =  window.location
   const subdir = getSubdir(pathname)
-  if(subdir !== '/') {
-    path = subdir + path
-  }
-  let res = {id, path, name, component}
-  if(typeof(meta) === 'object') {
-    res = {...res, meta}
-  }
+  if(subdir !== '/') { routeProps.path = subdir + path }
   id++
-  return res
+  routeProps.id = id
+  return routeProps
 }

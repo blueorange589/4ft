@@ -6,6 +6,8 @@
 const { useRouter } = VueRouter;
 
 import { store } from '../store.js';
+import { insertRow } from '../../../dev/scripts/local.js';
+
 
 export const page = {
   setup(props, ctx) {
@@ -43,7 +45,7 @@ export const navbar = {
     const goto = (obj) => { router.push(obj) }
     return { store, goto } 
   },
-    template: `<div class="fixed top-0 left-0 z-6 w-full h-9 p-2 border-b border-third bg-primary text-white row justify-center">
+    template: `<div class="w-full h-9 p-2 border-b border-third bg-primary text-white row justify-center">
     <div class="w-full max-w-4xl row between-center">
   <logo text="realis" :src="store.url.file('assets/logo/logo.svg')" :dark="store.url.file('assets/logo/logo-dark.svg')"></logo>
   <slot></slot>
@@ -124,7 +126,8 @@ export const unauthorized = {
   template: `<div>You are unauthorized to view this page</div>`
 }
 
-export const home = {
+
+export const home2 = {
   setup() {
     const router = useRouter()
     const goto = (obj) => { router.push(obj) }
@@ -167,4 +170,19 @@ export const home = {
     </div>
   </div>
 </div>`
+}
+
+
+
+
+export const home = {
+  setup() {
+    const router = useRouter() 
+    const goto = (obj) => { router.push(obj) }
+    return {goto}
+  },
+  template: `<button @click="goto({name: 'auth-login'})">login</button>
+  <button @click="goto({name: 'auth-signup'})">signup</button>
+  <button @click="goto({name: 'addon-uikit'})">launch uikit builder</button>
+  `
 }

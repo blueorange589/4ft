@@ -142,5 +142,8 @@ cdn_modules
 dev
 
 # addons
-addons/
-!*/addons/addons.js
+addons/*
+!/addons/addons.js
+!/addons/admin
+!/addons/auth
+!/addons/user

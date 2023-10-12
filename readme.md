@@ -32,9 +32,23 @@ Designed to work in Node, Nginx and Apache servers. (Node server support not rea
 
 
 
+
+
+
+
 :::info
 most of the code to be reorganized, which is underway. It’s ready for preview though.
 
 :::
 
-You may create merge requests to contribute.
+
+Can you maintain the repo? 4ft wants you.
+
+Are you a react developer? 4ft is happy to have a react friend.
+
+
+Special special thanks
+
+Evan You and Vue team
+
+Supabase team
