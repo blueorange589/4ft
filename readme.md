@@ -33,8 +33,7 @@ Not only it cuts development time, 4ft is also way more performant, since entire
 Designed to work in Node, Nginx and Apache servers. (Node server support not ready yet)
 
 
-
-
+For end users it enables UIKit and layout building, in addition to attaching elements to events. Addons are autoloaded by 4ft, so users can enable functionality needed, by just uploading (possibly by downloading in future) them into /addons folder. 
 
 
 
@@ -54,12 +53,15 @@ Can you maintain the repo? 4ft wants you.
 Are you a react developer? 4ft is happy to have a react friend.
 
 
-Features to implement are listed in ‘Projects’ tab. Feel free to grab yours and send me a message before starting.
+Features to implement are listed in ‘Projects’ tab. Feel free to grab yours and send me a message before starting. (blueorange589@gmail.com)
+
 
 ### Special special thanks
 
-Evan You and Vue team @yyx990803 @vuejs
+Evan You and Vue team
 
 Supabase
 
 Tailwind CSS
+
+Vercel
