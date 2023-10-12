@@ -63,7 +63,7 @@
       loadCss(mp('4ft'))
 
       const jp = (fn) => { return origin + subdir + fn }
-      loadJs(jp('/cdn_modules/vue@3.3.4/vue.global.prod.min.js'), 'script').then(res => {
+      loadJs(jp('/cdn_modules/vue@3.3.4/vue.global.min.js'), 'script').then(res => {
         loadJs(jp('/cdn_modules/vue-router@4.2.5/vue-router.global.js'), 'script').then(res => {
           loadJs(jp('/app.js'), 'module')
         })

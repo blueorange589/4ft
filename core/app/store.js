@@ -13,45 +13,23 @@ export const templates = {}
 // store.js
 export const store = reactive({
   me: false,
-  components: {},
-  show: { modal: false, login: false },
-  nextPage: {},
-  modal: { show: false, title: '' },
-  confirmer: { title: 'Are you sure?', text: '' },
-  info: { text: '' },
+  router: {},
+  nextRoute: {},
   settings: {disableAuth: false},
   pager: { page: 1 },
-  url: {
-    base: '',
-    sub: '',
-    full: () => { return [store.url.base, store.url.sub].join('') },
-    file: (fn) => { return [store.url.full(),fn].join('/') },
-    link: (fn) => { return [store.url.sub,fn].join('') },
-    backend: (ep) => { 
-      let url = config.dev.backend.local+ep
-      if(config.dev.mode === 'production') {
-        url = config.dev.backend.production+ep
-      }
-    return url
-    }
-  },
-  router: {},
-  signIn: () => { 
-    return new Promise(resolve => setTimeout(resolve, 100, true))
-  },
-  logout() {
-    store.me = null
-  },
-  unhide(el) { this.show[el] = true },
-  hide(el) { this.show[el] = false },
-  toggle(el) { this.show[el] = !this.show[el] },
 })
 
 export const ctMain = {
   event: (e, obj) => {
     if(e === 'error') { NotifyService.show('error', obj.message) }
     if(e === 'success') { NotifyService.show('success', obj.message) }
-  }
+  },
+  signIn: () => { 
+    return new Promise(resolve => setTimeout(resolve, 100, true))
+  },
+  logout() {
+    store.me = null
+  },
 }
 
 
@@ -78,6 +56,20 @@ export const utils = {
     hash: (numChars = 8) => {
       return Math.random().toString(36).substring(0, numChars)
     },
+  },
+  url: {
+    base: '',
+    sub: '',
+    full: () => { return [utils.url.base, utils.url.sub].join('') },
+    file: (fn) => { return [utils.url.full(),fn].join('/') },
+    link: (fn) => { return [utils.url.sub,fn].join('') },
+    backend: (ep) => { 
+      let url = config.dev.backend.local+ep
+      if(config.dev.mode === 'production') {
+        url = config.dev.backend.production+ep
+      }
+    return url
+    }
   }
 }
 
@@ -132,7 +124,7 @@ export const xhr = {
     return new Promise(resolve => resolve(response))
   },
   supabase: async(ep, body) => {
-    const url = store.url.backend('/sb'+ep)
+    const url = utils.url.backend('/sb'+ep)
     const opts = {body, method: 'POST'}
     const { data, error } = await xhr.request(url, opts)
     return new Promise(resolve => resolve({ data, error }))

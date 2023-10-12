@@ -87,35 +87,6 @@ export const modal = {
     
   </div>`
 }
-export const confirmer = {
-  setup() {
-    const show = false
-    return { show, store}
-  },
-  template: `<modal v-show="show">
-      {{store.confirmer.text}}
-      <template #ftr>
-        <div class="row between-center">
-          <btn bg="gray" size="sm" text="cancel"></btn>
-          <btn size="sm" text="yes"></btn>
-        </div>
-      </template>
-      </modal>`
-}
-
-export const info = {
-  setup() {
-    return { store }
-  },
-  template: `<modal>
-      {{store.info.text}}
-      <template #ftr>
-        <div class="w-full row end">
-          <btn size="sm" text="ok" @click="store.hide('modal')"></btn>
-        </div>
-      </template>
-      </modal>`
-}
 
 export const divide = {
   props: ["size"],

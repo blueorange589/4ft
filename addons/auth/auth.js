@@ -4,8 +4,6 @@
  * v0.1 (2023/10/07)
  */
 const { reactive, ref, h } = Vue;
-const { useRoute, useRouter } = VueRouter;
-
 
 const auth = {}
 auth.data = reactive({

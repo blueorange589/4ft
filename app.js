@@ -7,11 +7,9 @@ const { createApp, reactive } = Vue;
 
 import { addOns } from "./addons/addons.js";
 import { config } from "./config.js";
-import { store, xhr, getSubdir, makeRoute } from "./core/app/store.js";
+import { store, utils, xhr, getSubdir, makeRoute } from "./core/app/store.js";
 import {
   modal,
-  confirmer,
-  info,
   divide,
   card,
   btn,
@@ -52,9 +50,9 @@ import { icon } from "./core/app/helpers/icons.js";
 const app = createApp({
   setup() {
     const { origin, pathname } = window.location;
-    const subdir = getSubdir(pathname);
-    store.url.base = origin;
-    store.url.sub = subdir.slice(-1) === "/" ? subdir.slice(0, -1) : subdir;
+    const subdir = getSubdir(pathname)
+    utils.url.base = origin;
+    utils.url.sub = subdir.slice(-1) === "/" ? subdir.slice(0, -1) : subdir;
 
     const localHosts = ['127.0.0.1', '0.0.0.0', 'localhost']
     localHosts.forEach(h => { 
@@ -65,46 +63,44 @@ const app = createApp({
       } })
     return { store };
   },
-});
+})
 
 // LAYOUT
-app.component("page", page);
-app.component("navbar", navbar);
-app.component("logo", logo);
-app.component("menulist", menulist);
-app.component("pagetop", pagetop);
-app.component("pagetitle", pagetitle);
-app.component("mobibar", mobibar);
+app.component("page", page)
+app.component("navbar", navbar)
+app.component("mobibar", mobibar)
+app.component("logo", logo)
+app.component("menulist", menulist)
+app.component("pagetop", pagetop)
+app.component("pagetitle", pagetitle)
 
 // BASE COMPONENTS
-app.component("btn", btn);
-app.component("badge", badge);
-app.component("msg", msg);
-app.component("icon", icon);
-app.component("modal", modal);
-app.component("confirmer", confirmer);
-app.component("info", info);
-app.component("divide", divide);
-app.component("card", card);
-app.component("dropdown", dropdown);
+app.component("btn", btn)
+app.component("badge", badge)
+app.component("msg", msg)
+app.component("icon", icon)
+app.component("modal", modal)
+app.component("divide", divide)
+app.component("card", card)
+app.component("dropdown", dropdown)
 
-app.component("ftext", ftext);
-app.component("fshow", fshow);
-app.component("farea", farea);
-app.component("fselect", fselect);
-app.component("fradio", fradio);
-app.component("fcheck", fcheck);
-app.component("fmoney", fmoney);
-app.component("errlist", errlist);
+app.component("ftext", ftext)
+app.component("fshow", fshow)
+app.component("farea", farea)
+app.component("fselect", fselect)
+app.component("fradio", fradio)
+app.component("fcheck", fcheck)
+app.component("fmoney", fmoney)
+app.component("errlist", errlist)
 
-app.component("filters", filters);
-app.component("sorters", sorters);
-app.component("paginate", paginate);
-app.component("listItem", listItem);
-app.component("tablewrap", tablewrap);
-app.component("ListImage", listImage);
+app.component("filters", filters)
+app.component("sorters", sorters)
+app.component("paginate", paginate)
+app.component("listItem", listItem)
+app.component("tablewrap", tablewrap)
+app.component("ListImage", listImage)
 
-app.component("home", home);
+app.component("home", home)
 
 const routes = [
   makeRoute({path: "/", name:"site-home", component:home}),
@@ -126,26 +122,27 @@ const addOnMounts = async() => {
   
       if(initers.core === true) {
         const routeProps = {...initers, ...{component: mod.container}}
-        const rt = makeRoute(routeProps);
-        routes.push(rt);
-        app.component(`${name}`, mod.container);
+        const rt = makeRoute(routeProps)
+        routes.push(rt)
+        app.component(`${name}`, mod.container)
       } else {
         // register routes
         const subs = initers.routes || {};
         Object.keys(subs).forEach((sk) => {
           const cmp = {template: `<div class="view-${subs[sk].name}">${subs[sk].name}</div>`}
           const routeProps = {...subs[sk], ...{component: cmp}}
-          const newrt = makeRoute(routeProps);
+          const newrt = makeRoute(routeProps)
           routes.push(newrt)
-          app.component(`${subs[sk].name}`, cmp);
-        });
-        app.component(`${name}`, mod.container);
+          app.component(`${subs[sk].name}`, cmp)
+
+        })
+        app.component(`${name}`, mod.container)
       }
-      if (initers.init) initers.init();
+      if (initers.init) initers.init()
       
     })
     return mods
-  });
+  })
   return ready
 }
 
@@ -157,7 +154,7 @@ const appMount = async() => {
     const router = VueRouter.createRouter({
       history: VueRouter.createWebHistory(),
       routes,
-    });
+    })
 
     const templates = {}
     const ts = await xhr.database({ run: "select", from: "4ft_templates" }).then((res) => {
@@ -181,7 +178,7 @@ const appMount = async() => {
               return { name: "site-unauthorized" };
             }
           } else {
-            store.nextPage = to;
+            store.nextRoute = to;
             return { name: "auth-login" };
           }
         }
@@ -201,10 +198,10 @@ const appMount = async() => {
       }
     })
     
-    app.use(router);
+    app.use(router)
     store.router = router;
     
-    app.mount("#app");
+    app.mount("#app")
   })
 }
 appMount()

@@ -4,7 +4,7 @@ export const addOns = {
     path: '/auth/:sub?', 
     name: 'auth', 
     routes: {
-      'login': {path: '/auth/login', name: 'auth-login'},
+      'login': {path: '/auth/login', name: 'auth-login', adminMenu: {name: 'Login'}},
       'signup': {path: '/auth/signup', name: 'auth-signup'},
       'forgot': {path: '/auth/forgot', name: 'auth-forgot'},
     }, 

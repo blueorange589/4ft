@@ -1,7 +1,6 @@
 export const useData = () => {
   const { success, warning, error } = useSwal()
   const lottie = useState('fin_lottie')
-  const router = useRouter()
 
   const request = async (url, options) => {
     if (options.method !== 'GET' && typeof(options.body) === 'undefined') {

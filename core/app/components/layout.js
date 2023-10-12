@@ -3,10 +3,7 @@
  * Author: Ozgur Arslan | MIT License
  * v0.1 (2023/10/07)
  */
-const { useRouter } = VueRouter;
-
-import { store } from '../store.js';
-import { insertRow } from '../helpers/local.js';
+import { store, utils} from '../store.js';
 
 
 export const page = {
@@ -26,7 +23,7 @@ export const logo = {
     const cls = { 'logo': true }
     const lsz = props.size ? 'logo-' + props.size : 'logo-md'
     cls[lsz] = true
-    return { cls, store }
+    return { cls, store, utils }
   },
   props: ["text", "src", "dark", "size"],
   template: `<div :class="cls">
@@ -34,24 +31,23 @@ export const logo = {
     <icon name="dropbox" color="white" size="xl" class="mr-2"></icon> 
     <span class="self-center whitespace-nowrap text-xl font-semibold">{{text}}</span>
   </div>
-  <router-link :to="store.url.link('/')"><img class="logo-default max-h-7" :src="src" v-if="src"></router-link>
-  <router-link :to="store.url.link('/')"><img class="logo-dark max-h-7" :src="dark" v-if="dark"></router-link>
+  <router-link :to="utils.url.link('/')"><img class="logo-default max-h-7" :src="src" v-if="src"></router-link>
+  <router-link :to="utils.url.link('/')"><img class="logo-dark max-h-7" :src="dark" v-if="dark"></router-link>
   </div>`
 }
 
 export const navbar = {
   setup() { 
-    const router = useRouter()
-    const goto = (obj) => { router.push(obj) }
-    return { store, goto } 
+    return { store, utils } 
   },
     template: `<div class="w-full h-9 p-2 border-b border-third bg-primary text-white row justify-center">
     <div class="w-full max-w-4xl row between-center">
-  <logo text="realis" :src="store.url.file('assets/logo/logo.svg')" :dark="store.url.file('assets/logo/logo-dark.svg')"></logo>
+  <logo text="realis" :src="utils.url.file('assets/logo/logo.svg')" :dark="utils.url.file('assets/logo/logo-dark.svg')"></logo>
   <slot></slot>
   <div class="">
-    <btn text="home" bg="indigo" @click="goto({name:'site-home'})" class="mr-2"></btn>
-    <btn text="UIKit builder" bg="indigo" @click="goto({name:'addon-uikit'})"></btn>
+    <btn text="home" bg="indigo" @click="store.router.push({name:'site-home'})"></btn>
+    <btn text="login" bg="indigo" @click="store.router.push({name: 'auth-login'})" class="mx-2">login</btn>
+    <btn text="signup" bg="indigo" @click="store.router.push({name: 'auth-signup'})">signup</btn>
   </div>
   </div>
   </div>`
@@ -67,7 +63,7 @@ export const menulist = {
   <router-link :to="{name:item}">{{props.items[item]}}</router-link>
   </li>
   <li class="row">
-    <btn icon="cross" text="Logout" size="lg" bg="none" color="primary" @click="store.logout"></btn>
+    <btn icon="cross" text="Logout" size="lg" bg="none" color="primary" @click="ctMain.logout"></btn>
   </li></ul>`
 }
 
@@ -95,19 +91,15 @@ export const pagetop = {
 
 export const mobibar = {
   setup(props) {
-    const router = useRouter()
-    const goto = (pg) => { 
-      router.push({name:pg})
-    }
-    return { store, goto }
+    return { store }
   },
   template: `<div class="w-full fixed b-0 bg-primary text-white p-2 z-4
   ">
   <div class="row between-center">
-    <btn :class="btcls('home')" icon="list" size="lg" bg="nonewhite" @click="goto('home')"></btn>
-    <btn :class="btcls('admin-users')" icon="minus" size="lg" bg="nonewhite" @click="goto('admin-users')"></btn>
-    <btn class="btn-nav" icon="plus" size="lg" bg="nonewhite" @click="goto('user-resume')"></btn>
-    <btn class="btn-nav" icon="share" size="lg" bg="nonewhite" @click="goto('components')"></btn>
+    <btn :class="btcls('home')" icon="list" size="lg" bg="nonewhite" @click="store.router.push('home')"></btn>
+    <btn :class="btcls('admin-users')" icon="minus" size="lg" bg="nonewhite" @click="store.router.push('admin-users')"></btn>
+    <btn class="btn-nav" icon="plus" size="lg" bg="nonewhite" @click="store.router.push('user-resume')"></btn>
+    <btn class="btn-nav" icon="share" size="lg" bg="nonewhite" @click="store.router.push('components')"></btn>
     </div></div>`,
   methods: {
     btcls: (pg) => {
@@ -127,11 +119,8 @@ export const unauthorized = {
 }
 
 
-export const home2 = {
+export const home = {
   setup() {
-    const router = useRouter()
-    const goto = (obj) => { router.push(obj) }
-
 		const kitNames = []
     const getKits = () => {
       const getKits = localStorage.getItem('uikits')
@@ -143,14 +132,14 @@ export const home2 = {
       }
     }
     getKits()
-  return {goto, kitNames}
+  return { kitNames, store}
   },
   template: `<div class="pt-12 pb-32">
   <div class="w-120 mx-auto">
     <div class="row between-center">
-      <h2 class="flex-grow-1 text-white">UIKit Builder</h2>
+      <h2 class="flex-grow-1">UIKit Builder</h2>
       <div class="row between-center">
-					<btn text="create new" icon="plus" size="sm" bg="blue" class="mx-1" @click="goto({name:'addon-uikit', params: {id:''}})"></btn>
+					<btn text="create new" icon="plus" size="sm" bg="blue" class="mx-1" @click="store.router.push({name:'addon-uikit', params: {id:''}})"></btn>
 				</div>
     </div>
     <divide></divide>
@@ -160,7 +149,7 @@ export const home2 = {
         <ul v-if="kitNames.length">
           <li class="py-2 cursor-pointer row between-center" v-for="(kn,idx) in kitNames">
             <div class="font-bold text-lg">{{kn}}</div>
-            <div><btn size="md" bg="indigo" text="load" @click="goto({name:'addon-uikit', params: {id: idx}})"></btn></div>
+            <div><btn size="md" bg="indigo" text="load" @click="store.router.push({name:'addon-uikit', params: {id: idx}})"></btn></div>
           </li>
         </ul>
         <div v-else>
@@ -170,19 +159,4 @@ export const home2 = {
     </div>
   </div>
 </div>`
-}
-
-
-
-
-export const home = {
-  setup() {
-    const router = useRouter() 
-    const goto = (obj) => { router.push(obj) }
-    return {goto}
-  },
-  template: `<button @click="goto({name: 'auth-login'})">login</button>
-  <button @click="goto({name: 'auth-signup'})">signup</button>
-  <button @click="goto({name: 'addon-uikit'})">launch uikit builder</button>
-  `
 }
