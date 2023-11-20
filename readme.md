@@ -10,9 +10,9 @@ Not only it cuts time for development, 4ft is also way more performant, since en
 
 Designed to work in Node, Nginx and Apache servers.
 
-Uses standard JS object for database queries, to support all databases. 
+Uses standard JS object for database queries, to support all databases.
 
-\`{run:’update’, from: ‘mytable’, match: {id:1}, data:{username: ‘4ftuser’} }\`
+` {run:"update", from: “mytable”, match: {id:1}, data:{username: "4ftuser"} } `
 
 
 
