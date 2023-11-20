@@ -23,6 +23,7 @@ Each view taken from database on app load (app.js 139-147) and applied before ro
 
 Each controller is an addon, with just `addon.data` and `addon.events` to be coded. (addons/auth/auth.js)
 
+In view files, only `@click="auth.events.signIn"` and `{{auth.data.login.username}}`
 
 
 
