@@ -3,7 +3,7 @@
 4ft aims and provides tools to fasten development process by removing necessity of development builds.
 
 
-Entire app runs on <script type=”module”, so all changes are immediately reflected on browser preview.
+Entire app runs on <script type=”module”, so all changes are immediately reflected on browser preview. (VScode live preview or similar)
 
 Not only it cuts time for development, 4ft is also way more performant, since entire app is running on client side, which is also less server loads.
 
@@ -25,7 +25,7 @@ Each controller is an addon, with just `addon.data` and `addon.events` to be cod
 
 In view files, only `@click="auth.events.signIn"` and `{{auth.data.login.username}}`
 
-
+may need a bit of work to get it running.
 
 
 ### Special thanks
