@@ -37,6 +37,7 @@ const query = async(q) => {
       cl.eq(col, q.eq[col])
     })
   }
+  if(q.match) { cl.match(q.match) }
   if (q.gt) { cl.gt(q.gt) }
   if (q.lt) { cl.lt(q.lt) }
 
@@ -59,10 +60,6 @@ const query = async(q) => {
 };
 
 const auth = {
-  saveSession: (session) => {
-    console.log(session)
-    // setCookie()
-  },
   getSession: async() => {
     const { data, error } = await supabase.auth.getSession()
     //const session = supabase.auth.session()
@@ -77,18 +74,13 @@ const auth = {
     return { data, error }
   },
   signIn: async(params) => {
+    console.log(params)
     const { data, error } = await supabase.auth.signInWithPassword(params)
-    if(!error) {
-      auth.saveSession(data.session)
-    }
     return { data, error }
   },
   signInSocial: async(params) => {
     // {provider: 'github'}
     const { data, error } = await supabase.auth.signInWithOAuth(params)
-    if(!error) {
-      auth.saveSession(data.session)
-    }
     return { data, error }
   },
   signOut: async () => {
