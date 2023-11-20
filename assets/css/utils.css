@@ -183,6 +183,8 @@ github.com/blueorange589
 .max-h-8 {max-height: var(--size-8);}
 .max-h-16 {max-height: var(--size-16);}
 
+.min-h-8 {min-height: var(--size-8);}
+
 /* padding */
 .p-0{padding:0px;}
 .p-1 {padding: var(--size-1);}
@@ -1359,6 +1361,7 @@ whitespace-normal {
 .bg-pink {background-color: var(--pink-700);}
 .bg-primary {background-color: var(--primary); }
 .bg-secondary {background-color: var(--secondary); }
+.bg-coral {background-color: coral; }
 
 
 /* text */

@@ -7,7 +7,7 @@ const { createApp, reactive } = Vue;
 
 import { addOns } from "./addons/addons.js";
 import { config } from "./config.js";
-import { store, utils, xhr, getSubdir, makeRoute } from "./core/app/store.js";
+import { store, utils, getSubdir, makeRoute } from "./core/app/store.js";
 import {
   modal,
   divide,
@@ -15,21 +15,12 @@ import {
   btn,
   badge,
   msg,
-  avatar,
   filters,
   sorters,
   dropdown,
   paginate,
 } from "./core/app/components/elements.js";
 import {
-  home,
-  page,
-  navbar,
-  logo,
-  pagetitle,
-  pagetop,
-  menulist,
-  mobibar,
   notFound,
   unauthorized,
 } from "./core/app/components/layout.js";
@@ -65,14 +56,6 @@ const app = createApp({
   },
 })
 
-// LAYOUT
-app.component("page", page)
-app.component("navbar", navbar)
-app.component("mobibar", mobibar)
-app.component("logo", logo)
-app.component("menulist", menulist)
-app.component("pagetop", pagetop)
-app.component("pagetitle", pagetitle)
 
 // BASE COMPONENTS
 app.component("btn", btn)
@@ -100,10 +83,9 @@ app.component("listItem", listItem)
 app.component("tablewrap", tablewrap)
 app.component("ListImage", listImage)
 
-app.component("home", home)
 
 const routes = [
-  makeRoute({path: "/", name:"site-home", component:home}),
+  //makeRoute({path: "/", name:"site-home", component:home}),
   makeRoute({path: "/site/notfound", name:"site-notfound", component:notFound}),
   makeRoute({path: "/site/unauthorized", name:"site-unauthorized", component:unauthorized}),
 ];
@@ -120,30 +102,27 @@ const addOnMounts = async() => {
       mods[name] = mod
       const initers = addOns[name];
   
-      if(initers.core === true) {
-        const routeProps = {...initers, ...{component: mod.container}}
-        const rt = makeRoute(routeProps)
-        routes.push(rt)
-        app.component(`${name}`, mod.container)
-      } else {
-        // register routes
-        const subs = initers.routes || {};
-        Object.keys(subs).forEach((sk) => {
-          const cmp = {template: `<div class="view-${subs[sk].name}">${subs[sk].name}</div>`}
-          const routeProps = {...subs[sk], ...{component: cmp}}
-          const newrt = makeRoute(routeProps)
-          routes.push(newrt)
-          app.component(`${subs[sk].name}`, cmp)
+      // register component
+      const routeProps = {...initers, ...{component: mod.container}}
+      const rt = makeRoute(routeProps)
+      routes.push(rt)
+      app.component(`${name}`, mod.container)
 
-        })
-        app.component(`${name}`, mod.container)
-      }
-      if (initers.init) initers.init()
+      // register routes
+      const subs = initers.routes || {};
+      Object.keys(subs).forEach((sk) => {
+        const cmp = {template: `<div class="view-${subs[sk].name}">${subs[sk].name}</div>`}
+        const routeProps = {...subs[sk], ...{component: cmp}}
+        const newrt = makeRoute(routeProps)
+        routes.push(newrt)
+        app.component(`${subs[sk].name}`, cmp)
+      })
       
+      if (initers.init) initers.init()
     })
     return mods
   })
-  return ready
+  return new Promise(resolve => resolve(ready))
 }
 
 
@@ -156,21 +135,21 @@ const appMount = async() => {
       routes,
     })
 
+    
     const templates = {}
-    const ts = await xhr.database({ run: "select", from: "4ft_templates" }).then((res) => {
+    const ts = await xhr.database({ run: "select", from: "wd_templates" }).then((res) => {
       if(res) {
         res.data.forEach((tmp) => {
           const tn = tmp.name;
           templates[tn] = tmp.template;
         })
       }
-      
     })
 
     
     router.beforeEach(async (to, from) => {
       const { me } = store,
-        { meta } = to;
+      { meta } = to;
       if (meta.reqAuth) {
         if (meta.type) {
           if (me) {
@@ -184,7 +163,7 @@ const appMount = async() => {
         }
       }
 
-    
+      
       if (to.name === "auth-login") {
         const cmp = app.component('auth')
         const provides = cmp.setup()

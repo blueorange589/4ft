@@ -137,14 +137,13 @@ cdn_modules
 
 # gitignore
 .gitignore
+.vercel
 
 # dev
 dev
 
-# addons
+addons
 # addons/*
 # !/addons/addons.js
-# !/addons/admin
 # !/addons/auth
-/addons/jobiva
-.vercel
+# !/addons/layoutBuilder

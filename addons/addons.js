@@ -12,7 +12,8 @@ export const addOns = {
       //console.log('here')
     },
   },
-  'uiKitBuilder': {path:'/addon/uikit/:id?', name: 'addon-uikit', init: () => {}, core: true},
+  'uiKitBuilder': {path:'/addon/uikit/:id?', name: 'addon-uikit', init: () => {}},
+  'layoutBuilder': {path:'/addon/layout/:id?', name: 'addon-layout', init: () => {}},
 }
   //'admin': {path:'/addon/admin', name: 'addon-uikit', init: () => {}},
   //'user': {path:'/addon/user', name: 'addon-uikit', init: () => {}},

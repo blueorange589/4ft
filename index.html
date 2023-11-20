@@ -5,11 +5,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title></title>
+  <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
 
 <body class="text-sm lg:text-md w-full">
 
-  <div id="app" class="w-full h-full">
+  <div id="app" class="w-full h-full col">
     <div id="notifications"></div>
     <navbar></navbar>
 
@@ -63,9 +64,11 @@
       loadCss(mp('4ft'))
 
       const jp = (fn) => { return origin + subdir + fn }
-      loadJs(jp('/cdn_modules/vue@3.3.4/vue.global.min.js'), 'script').then(res => {
-        loadJs(jp('/cdn_modules/vue-router@4.2.5/vue-router.global.js'), 'script').then(res => {
-          loadJs(jp('/app.js'), 'module')
+      loadJs(jp('/cdn_modules/tailwind@3.3.3/tailwind.js'), 'script').then(res => {
+        loadJs(jp('/cdn_modules/vue@3.3.4/vue.global.min.js'), 'script').then(res => {
+          loadJs(jp('/cdn_modules/vue-router@4.2.5/vue-router.global.js'), 'script').then(res => {
+            loadJs(jp('/app.js'), 'module')
+          })
         })
       })
     })
